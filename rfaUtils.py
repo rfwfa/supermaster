@@ -129,23 +129,60 @@ def getArguments(args):
 
 
 def getDbConnection(url, username, user_password):
-    return -1
+    try:
+        cnx = mysql.connector.connect(user=username, password=user_password,
+                                      host=url,
+                                      database='bugs')
+    except Exception as e:
+        print e
+        cnx = -1
+    return cnx
+
 
 def getDbCursor(cnx):
-    return -1
+    try:
+        cursor = cnx.cursor()
+    except Exception as e:
+        print e
+        cursor = -1
+    return cursor
 
 
 def queryDb():
     pass
 
 def buildURL(list_of_strings):
-    return ""
+    return ''.join([s.strip(' /') + '/' for s in list_of_strings if s.strip(" /") != ''])[:-1]
 
 def getHttpResponse(url, http_method, parameters):
-    return ""
-    
+    response = -1
+    try:
+        if http_method == 'POST':
+            response = requests.post(url, auth=(parameters['username'], parameters['password']))
+            return response
+        if http_method == 'GET':
+            response = requests.get(url, auth=(parameters['username'], parameters['password']))
+            return response
+        if http_method == 'HEAD':
+            response = requests.head(url, auth=(parameters['username'], parameters['password']))
+            return response
+        if http_method == 'DELETE':
+            response = requests.delete(url, auth=(parameters['username'], parameters['password']))
+            return response
+        if http_method == 'OPTIONS':
+            response = requests.options(url, auth=(parameters['username'], parameters['password']))
+            return response
+    except Exception as e:
+        print e
+        return response
+
+
 def getHttpResponseCode(response, indicator):
-    return ""
+    if indicator == 'string':
+        return str(response.status_code)
+    if indicator == 'int':
+        return response.status_code
+
 
 def checkEnv():
     return True

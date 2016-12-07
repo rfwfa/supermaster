@@ -3,7 +3,6 @@ Created on Oct 19, 2016
 @author: sashaalexander
 '''
 import sys
-from __builtin__ import str
 
 from rfaUtils import getLog, qaPrint, getLocalEnv, getTestCases, closeLog, getArguments
 
