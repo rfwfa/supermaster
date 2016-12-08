@@ -1,7 +1,5 @@
 '''
-Created on Oct 19, 2016
-
-@author: sashaalexander
+@author: team 6
 '''
 from datetime import datetime
 import os
@@ -151,8 +149,11 @@ def getDbCursor(cnx):
 def queryDb():
     pass
 
+
 def buildURL(list_of_strings):
     return '/'.join([s.strip(' /') for s in list_of_strings if s.strip(' /') != ''])
+
+
 def getHttpResponse(url, http_method, parameters):
     try:
         if http_method == 'POST':

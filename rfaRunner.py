@@ -1,6 +1,5 @@
 '''
-Created on Oct 19, 2016
-@author: sashaalexander
+@author: team 6
 '''
 import sys
 
