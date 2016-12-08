@@ -1,5 +1,6 @@
 import unittest
-from rfaUtils import buildURL,getHttpResponse, getHttpResponseCode
+from rfaUtils import buildURL, getHttpResponse, getHttpResponseCode
+from time import sleep
 
 
 class TestRfaUtils(unittest.TestCase):
@@ -27,13 +28,18 @@ class TestRfaUtils(unittest.TestCase):
                                            
         
     def test_getHttpResponse1(self):
-        response = getHttpResponse('https://api.github.com','GET', {'username':'user', 'password':'pass'})
-        r_code = getHttpResponseCode(response,'string')
-        self.assertEqual(r_code, "401", 'Expected ' + "401, " + 'Actual ' + r_code)
+        response = getHttpResponse('https://echo.getpostman.com/post', 'GET', {'username':'admin1','password':'pass'})
+        r_code = getHttpResponseCode(response, 'string')
+        self.assertEqual(r_code, "404")
         
-    def test_getHttpResponse2(self):
-        response = getHttpResponse('https://api.github.com','GET', {'username':'user', 'password':'pass'})
-        r_code = getHttpResponseCode(response,'int')
-        self.assertEqual(r_code, 401, 'Expected ' + "401, " + 'Actual ' + str(r_code))
+    def test_getHttpResponse2(self):  
+        response = getHttpResponse('https://echo.getpostman.com/post', 'GET', {'username':'admin2','password':'pass'})
+        r_code = getHttpResponseCode(response, 'int')
+        self.assertEqual(r_code, 404)
+        
+    def test_getHttpResponse3(self):
+        resp = getHttpResponse('https://echo.getpostman.com/post', 'POST', {'username':'admin','password':'pass'})
+        self.assertTrue(resp.content != "", resp)
         
 if __name__ == "__main__": unittest.main()
+

@@ -152,30 +152,27 @@ def queryDb():
     pass
 
 def buildURL(list_of_strings):
-    return ''.join([s.strip(' /') + '/' for s in list_of_strings if s.strip(" /") != ''])[:-1]
-
+    return '/'.join([s.strip(' /') for s in list_of_strings if s.strip(' /') != ''])
 def getHttpResponse(url, http_method, parameters):
-    response = -1
     try:
         if http_method == 'POST':
-            response = requests.post(url, auth=(parameters['username'], parameters['password']))
-            return response
-        if http_method == 'GET':
-            response = requests.get(url, auth=(parameters['username'], parameters['password']))
-            return response
-        if http_method == 'HEAD':
-            response = requests.head(url, auth=(parameters['username'], parameters['password']))
-            return response
-        if http_method == 'DELETE':
-            response = requests.delete(url, auth=(parameters['username'], parameters['password']))
-            return response
-        if http_method == 'OPTIONS':
-            response = requests.options(url, auth=(parameters['username'], parameters['password']))
-            return response
+            method = requests.post
+        elif http_method == 'GET':
+            method = requests.get
+        elif http_method == 'HEAD':
+            method = requests.head
+        elif http_method == 'DELETE':
+            method = requests.delete
+        elif http_method == 'OPTIONS':
+            method = requests.options
+        else:
+            return -1
+        response = method(url, params=parameters)
+        return response
     except Exception as e:
         print e
-        return response
-
+        return -1
+        
 
 def getHttpResponseCode(response, indicator):
     if indicator == 'string':
